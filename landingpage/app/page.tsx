@@ -7,8 +7,19 @@ import infoCards from './libs/InfoCards'
 import { CheckCheck, LucideIcon } from 'lucide-react'
 import { ReactElement } from 'react'
 import pricingCards from './libs/PricingCards'
+import { Application } from '@splinetool/runtime'
+import { useEffect } from 'react'
 
 export default function Home() {
+
+  useEffect(() => {
+    const canvas = document.getElementById('canvas3d') as HTMLCanvasElement | null;
+    if (canvas) {
+      const app = new Application(canvas);
+      app.load('https://prod.spline.design/9rfMxH1PWX2PrDJd/scene.splinecode');
+    }
+  }, []);
+
   return (
     <main className='flex min-h-screen h-fit flex-col items-center justify-center relative'>
       <Navbar />
@@ -21,13 +32,13 @@ export default function Home() {
           <p className='max-w-md text-sm md:text-base text-zinc-500'>Insightful is an AI-powered sales optimization tool that provides data-driven insights to boost sales performance.</p>
           <div className='w-full flex items-center justify-center md:justify-start gap-4'>
             <button className='w-48 h-12 text-sm sm:text-base rounded bg-white text-black hover:bg-fuchsia-700 hover:text-white transition-colors'>Try 7 days free!</button>
-            <button className='w-48 h-12 text-sm sm:text-base rounded hover:bg-white hover:text-white hover:bg-opacity-5 transition-colors'>Contact</button>
+            <button className='w-48 h-12 text-sm sm:text-base rounded hover:bg-fuchsia-700 bg-white hover:text-white bg-opacity-5 transition-colors'>Contact</button>
           </div>
         </div>
 
         <div className='w-full h-2/4 md:h-full md:w-3/5 flex items-center justify-center relative -z-10'>
-          <Spline className="w-full flex scale-[.25] sm:scale-[.35] lg:scale-[.5] items-center justify-center md:justify-start" scene='https://prod.spline.design/pvM5sSiYV2ivWraz/scene.splinecode'/>
-        </div>
+        <canvas id="canvas3d" className="w-full flex scale-[.25] sm:scale-[.35] lg:scale-[.5] items-center justify-center md:justify-start" />
+    </div>
 
       </header>
 
@@ -121,7 +132,7 @@ function PricingCard({title,price,benefits,oneliner}:IPricingCardProps) {
 
 function Navbar() {
   return (
-    <div className='w-full h-16 backdrop-filter backdrop-blur-xl bg-opacity-20 border-b flex items-center justify-center'>
+    <div className='w-full h-16 backdrop-filter backdrop-blur-xl bg-opacity-20 border-b flex items-center justify-center fixed top-0 z-50'>
       <div className='max-w-7xl w-full flex items-center justify-between p-4'>
         <h6 className='font-bold'>Insightful</h6>
         <ul className='flex gap-8'>
@@ -130,7 +141,6 @@ function Navbar() {
           <li><Link className='hover:text-fuchsia-500 transition-colors text-xs sm:text-base' href="#pricing">Pricing</Link></li>
         </ul>
       </div>
-
     </div>
   )
 }
