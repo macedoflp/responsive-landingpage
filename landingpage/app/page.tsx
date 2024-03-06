@@ -8,7 +8,7 @@ import { CheckCheck, LucideIcon } from 'lucide-react'
 import { ReactElement } from 'react'
 import pricingCards from './libs/PricingCards'
 import { Application } from '@splinetool/runtime'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
 
@@ -37,8 +37,8 @@ export default function Home() {
         </div>
 
         <div className='w-full h-2/4 md:h-full md:w-3/5 flex items-center justify-center relative -z-10'>
-        <canvas id="canvas3d" className="w-full flex scale-[.25] sm:scale-[.35] lg:scale-[.5] items-center justify-center md:justify-start" />
-    </div>
+          <canvas id="canvas3d" className="w-full flex scale-[.25] sm:scale-[.35] lg:scale-[.5] items-center justify-center md:justify-start" />
+        </div>
 
       </header>
 
@@ -130,10 +130,35 @@ function PricingCard({title,price,benefits,oneliner}:IPricingCardProps) {
   )
 }
 
+
 function Navbar() {
+  const [borderColor, setBorderColor] = useState("#000000");
+
+  useEffect(() => {
+    const updateBorderColor = () => {
+      const time = new Date().getSeconds();
+      const red = Math.sin(time * 0.1) * 127 + 128;
+      const green = Math.sin(time * 0.2) * 127 + 128;
+      const blue = Math.sin(time * 0.3) * 127 + 128;
+      const color = `rgb(${red}, ${green}, ${blue})`;
+      setBorderColor(color);
+    };
+
+    const interval = setInterval(updateBorderColor, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className='w-full h-16 backdrop-filter backdrop-blur-xl bg-opacity-20 border-b flex items-center justify-center fixed top-0 z-50'>
-      <div className='max-w-7xl w-full flex items-center justify-between p-4'>
+    <div className='fixed w-full h-16 backdrop-filter backdrop-blur-xl bg-opacity-20 flex items-center justify-center top-0 z-50'>
+      <div className='absolute inset-0 border-b border-solid border-transparent' style={{ borderColor: borderColor }}>
+        <div className="absolute inset-0 border-b border-solid border-transparent" style={{ borderColor: borderColor }}></div>
+        <div className="absolute inset-0 border-b border-solid border-transparent" style={{ borderColor: borderColor }}></div>
+        <div className="absolute inset-0 border-b border-solid border-transparent" style={{ borderColor: borderColor }}></div>
+        <div className="absolute inset-0 border-b border-solid border-transparent" style={{ borderColor: borderColor }}></div>
+        <div className="absolute inset-0 border-b border-solid border-transparent" style={{ borderColor: borderColor }}></div>
+      </div>
+      <div className='max-w-7xl w-full flex items-center justify-between p-4 relative z-10'>
         <h6 className='font-bold'>Insightful</h6>
         <ul className='flex gap-8'>
           <li><Link className='hover:text-fuchsia-500 transition-colors text-xs sm:text-base' href="#home">Home</Link></li>
